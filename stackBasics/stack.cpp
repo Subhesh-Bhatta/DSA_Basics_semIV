@@ -124,7 +124,7 @@ class Stack{
 
 
 
-// The tests are written by Claude, haven't checked fully
+// The tests are written by Claude, don't know how good they are
 int main() {
     std::cout << "=== Stack Test Suite ===\n\n";
 
