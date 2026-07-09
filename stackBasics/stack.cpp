@@ -13,6 +13,7 @@ class Stack{
             arr = new char[size]; //Allocating char size memory for array of size 'size'
         }
 
+        // copy constructor (deep copy)
         Stack(const Stack& other){
             this->size = other.size;
 
@@ -25,6 +26,7 @@ class Stack{
             this->top = other.top;
         }
         
+        //helper function to resize stack
         void resize(int newSize){
 
             if (newSize < size){
@@ -97,7 +99,6 @@ class Stack{
                 // throw std::underflow_error("Stack underflow");
             }
             else{
-                // top-=1; 
                 top-=1;
             }
         }
