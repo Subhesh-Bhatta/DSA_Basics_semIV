@@ -134,67 +134,165 @@ class Stack{
 
 
 // The tests are written by Claude, don't know how good they are
+
 int main() {
-    std::cout << "=== Stack Test Suite ===\n\n";
+    std::cout << "========== Stack Test Suite ==========\n\n";
 
-    // 1. Constructor & basic state
-    std::cout << "--- Test 1: Constructor ---\n";
+    // 1. Constructor & initial state
+    std::cout << "[Test 1] Constructor\n";
     Stack<int> s(5);
-    std::cout << "isEmpty: " << (s.isEmpty() ? "true" : "false") << " (expected: true)\n";
-    std::cout << "isFull:  " << (s.isFull()  ? "true" : "false") << " (expected: false)\n\n";
+    std::cout << "isEmpty(): " << (s.isEmpty() ? "PASS" : "FAIL") << '\n';
+    std::cout << "isFull():  " << (!s.isFull() ? "PASS" : "FAIL") << "\n\n";
 
-    // 2. Push & peek
-    std::cout << "--- Test 2: Push & Peek ---\n";
-    s.push('A'); s.push('B'); s.push('C');
-    std::cout << "peek: '" << s.peek() << "' (expected: 'C')\n";
-    std::cout << "isEmpty: " << (s.isEmpty() ? "true" : "false") << " (expected: false)\n\n";
+
+
+    // 2. Push & Peek
+    std::cout << "[Test 2] Push & Peek\n";
+    s.push(10);
+    s.push(20);
+    s.push(30);
+
+    std::cout << "Top element = " << s.peek()
+              << " (Expected: 30)\n\n";
+
+
 
     // 3. Pop
-    std::cout << "--- Test 3: Pop ---\n";
+    std::cout << "[Test 3] Pop\n";
+
     s.pop();
-    std::cout << "peek after pop: '" << s.peek() << "' (expected: 'B')\n";
+
+    std::cout << "Top after pop = " << s.peek()
+              << " (Expected: 20)\n";
+
     s.pop();
-    std::cout << "peek after two pops: '" << s.peek() << "' (expected: 'A')\n\n";
+
+    std::cout << "Top after second pop = " << s.peek()
+              << " (Expected: 10)\n\n";
+
+
 
     // 4. isFull
-    std::cout << "--- Test 4: isFull ---\n";
-    s.push('D'); s.push('E'); s.push('F'); s.push('G'); // A + 4 = 5
-    std::cout << "isFull: " << (s.isFull() ? "true" : "false") << " (expected: true)\n\n";
+    std::cout << "[Test 4] isFull\n";
+
+    s.push(40);
+    s.push(50);
+    s.push(60);
+    s.push(70);
+
+    std::cout << "isFull(): "
+              << (s.isFull() ? "PASS" : "FAIL")
+              << "\n\n";
+
+
 
     // 5. Underflow
-    std::cout << "--- Test 5: Pop / Peek on empty stack ---\n";
-    Stack small(2);
-    small.pop(); // prints "Stack underflow"
-    char u2 = small.peek(); // prints "Stack underflow", returns '\0'
-    std::cout << "peek on empty returned: '" << u2 << "' (expected: '\\0')\n\n";
+    std::cout << "[Test 5] Underflow Exceptions\n";
 
-    // 6. Copy constructor
-    std::cout << "--- Test 6: Copy constructor (deep copy) ---\n";
-    Stack original(3);
-    original.push('X'); original.push('Y'); original.push('Z');
-    Stack copy(original);
-    std::cout << "copy.peek: '" << copy.peek() << "' (expected: 'Z')\n";
-    copy.pop();
-    std::cout << "original.peek after mutating copy: '"
-              << original.peek() << "' (expected: 'Z')\n\n";
+    Stack<char> small(2);
 
-    // 7. Resize (grow)
-    std::cout << "--- Test 7: resize() grow ---\n";
-    Stack rs(3);
-    rs.push('1'); rs.push('2'); rs.push('3');
-    rs.resize(6);
-    rs.push('4'); rs.push('5'); rs.push('6');
-    std::cout << "isFull: " << (rs.isFull() ? "true" : "false") << " (expected: true)\n";
-    std::cout << "peek: '" << rs.peek() << "' (expected: '6')\n\n";
-
-    // 8. Destructor (implicit, via scope)
-    std::cout << "--- Test 8: Destructor ---\n";
-    {
-        Stack temp(4);
-        temp.push('T');
+    try {
+        small.pop();
+        std::cout << "FAIL : pop() should have thrown.\n";
     }
-    std::cout << "Stack destructor ran without crash\n\n";
+    catch(const std::underflow_error& e){
+        std::cout << "PASS : " << e.what() << '\n';
+    }
 
-    std::cout << "=== All tests complete ===\n";
+    try{
+        small.peek();
+        std::cout << "FAIL : peek() should have thrown.\n";
+    }
+    catch(const std::underflow_error& e){
+        std::cout << "PASS : " << e.what() << '\n';
+    }
+
+    std::cout << '\n';
+
+
+
+    // 6. Copy Constructor
+    std::cout << "[Test 6] Copy Constructor (Deep Copy)\n";
+
+    Stack<char> original(3);
+
+    original.push('X');
+    original.push('Y');
+    original.push('Z');
+
+    Stack<char> copy(original);
+
+    std::cout << "Copy top = "
+              << copy.peek()
+              << " (Expected: Z)\n";
+
+    copy.pop();
+
+    std::cout << "Original top after modifying copy = "
+              << original.peek()
+              << " (Expected: Z)\n";
+
+    std::cout << "Copy top after pop = "
+              << copy.peek()
+              << " (Expected: Y)\n\n";
+
+
+
+    // 7. Resize Grow
+    std::cout << "[Test 7] Resize (Grow)\n";
+
+    Stack<int> rs(3);
+
+    rs.push(1);
+    rs.push(2);
+    rs.push(3);
+
+    rs.resize(6);
+
+    rs.push(4);
+    rs.push(5);
+    rs.push(6);
+
+    std::cout << "isFull(): "
+              << (rs.isFull() ? "PASS" : "FAIL")
+              << '\n';
+
+    std::cout << "Top = "
+              << rs.peek()
+              << " (Expected: 6)\n\n";
+
+
+
+    // 8. Resize Shrink
+    std::cout << "[Test 8] Resize (Shrink)\n";
+
+    rs.resize(2);
+
+    std::cout << "Top after shrink = "
+              << rs.peek()
+              << " (Expected: 2)\n";
+
+    std::cout << "isFull(): "
+              << (rs.isFull() ? "PASS" : "FAIL")
+              << "\n\n";
+
+
+
+    // 9. Destructor
+    std::cout << "[Test 9] Destructor\n";
+
+    {
+        Stack<double> temp(5);
+
+        temp.push(1.1);
+        temp.push(2.2);
+    }
+
+    std::cout << "PASS : Destructor executed without crash.\n\n";
+
+
+
+    std::cout << "========== All Tests Finished ==========\n";
+
     return 0;
 }
