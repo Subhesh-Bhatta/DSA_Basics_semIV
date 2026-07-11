@@ -1,23 +1,27 @@
 #include <iostream>
+#include <stdexcept> //for underflow and overflow errors
 
+template <typename T>
 class Stack{
     private:
         int top=-1; //Index of top element of stck
         int size; //Capacity of array
-        char* arr; //first element of a dynamically allocated array
+        T* arr; //first element of a dynamically allocated array, and the element if of type T
 
     public:
         // Constructor for stack
         Stack(int n){
             this->size = n;
-            arr = new char[size]; //Allocating char size memory for array of size 'size'
+            //Allocating T (can be char, int or anything) sized memory for array of size 'size'
+            // arr = new T[size];
+            this->arr = new T[size]; //same as above, just to keep style consistent 
         }
 
         // copy constructor (deep copy)
         Stack(const Stack& other){
             this->size = other.size;
 
-            this->arr = new char[this->size];
+            this->arr = new T[this->size];
 
             for(int i=0; i<=other.top; i++){
                 this->arr[i] = other.arr[i];
@@ -46,7 +50,7 @@ class Stack{
                 }
             }
 
-            char* newArr = new char[newSize];
+            T* newArr = new T[newSize];
 
             int limit = (top < newSize - 1) ? top : newSize - 1;
 
@@ -62,16 +66,16 @@ class Stack{
         }
 
 
-        bool isEmpty(){
+        bool isEmpty() const{
             return top == -1;
             //same as return top==-1?true:false
         }
 
-        bool isFull(){
+        bool isFull() const{
             return top == size-1;
         }
 
-        void push(char x){
+        void push(T x){
             if (isFull()){ // or if (this->isFull())
                 std::cout << "Stack overflow\n";
                 std::cout << "Do you want to increase the size of stack?(1/0)\n";
@@ -95,19 +99,23 @@ class Stack{
 
         void pop(){
             if (isEmpty()){
-                std::cout << "Stack underflow\n";
-                // throw std::underflow_error("Stack underflow");
+                // std::cout << "Stack underflow\n";
+                throw std::underflow_error("Stack underflow");
             }
             else{
                 top-=1;
             }
         }
 
-        char peek(){
+        T peek() const{
             if (isEmpty()){
                 std::cout << "Stack underflow\n";
-                return '\0';
-                // throw std::underflow_error("Stack underflow");
+                // return '\0'; 
+                // since I am using a template instead of a specific type, making it so that it returns garbage value of multiple types is unfeasible,
+                // so, throwing an exception is better
+                // or we can just do 
+                // return T{}
+                throw std::underflow_error("Stack underflow");
             }
             else{
                 
@@ -131,7 +139,7 @@ int main() {
 
     // 1. Constructor & basic state
     std::cout << "--- Test 1: Constructor ---\n";
-    Stack s(5);
+    Stack<int> s(5);
     std::cout << "isEmpty: " << (s.isEmpty() ? "true" : "false") << " (expected: true)\n";
     std::cout << "isFull:  " << (s.isFull()  ? "true" : "false") << " (expected: false)\n\n";
 
