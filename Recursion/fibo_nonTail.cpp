@@ -17,7 +17,7 @@ int main(){
     auto endIterative = std::chrono::steady_clock::now();
     auto diffIterative = endIterative-startIterative;
 
-    std::cout << "Iterative approach says the" << input << "th term in the fibonacci sequence is " << resultIterative << '\n'; 
+    std::cout << "Iterative approach says the " << input << "th term in the fibonacci sequence is " << resultIterative << '\n'; 
     std::cout << "Time taken for iterative approach is " << std::chrono::duration<double, std::milli>(diffIterative).count() << " ms" << '\n' ;
     std::cout << "\n";
 
@@ -27,7 +27,7 @@ int main(){
     auto endRecursive = std::chrono::steady_clock::now();
     auto diffRecursive = endRecursive - startRecursive;
     
-    std::cout << "Recursive approach says the" << input << "th term in the fibonacci sequence is " << resultRecursive << '\n'; 
+    std::cout << "Recursive approach says the " << input << "th term in the fibonacci sequence is " << resultRecursive << '\n'; 
     std::cout << "Time taken for recursive approach is " << std::chrono::duration<double, std::milli>(diffRecursive).count() << " ms" << '\n' ;
 
 
