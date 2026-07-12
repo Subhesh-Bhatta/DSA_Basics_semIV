@@ -11,24 +11,25 @@ int main(){
     std::cout << "What number to get the factorial of?";
     std::cin >> input;
 
+    
     auto startIterative = std::chrono::steady_clock::now();
-    
-    std::cout << "Iterative approach says factorial of " << input << " is " << iterativeFactorial(input) << '\n'; 
-    
+    auto resultIterative = iterativeFactorial(input);
     auto endIterative = std::chrono::steady_clock::now();
-
     auto diffIterative = endIterative-startIterative;
+    
+    std::cout << "Iterative approach says factorial of " << input << " is " << resultIterative << '\n'; 
     std::cout << "Time taken for iterative approach is " << std::chrono::duration<double, std::milli>(diffIterative).count() << " ms" << '\n' ;
     std::cout << "\n";
 
-    auto startRecursive = std::chrono::steady_clock::now();
-    
-    std::cout << "Recursive approach says factorial of " << input << " is " << recursiveFactorial(input) << '\n'; 
-    
-    auto endRecursive = std::chrono::steady_clock::now();
 
+    auto startRecursive = std::chrono::steady_clock::now();
+    auto resultRecursive = recursiveFactorial(input);
+    auto endRecursive = std::chrono::steady_clock::now();
     auto diffRecursive = endRecursive - startRecursive;
+    
+    std::cout << "Recursive approach says factorial of " << input << " is " << resultRecursive << '\n'; 
     std::cout << "Time taken for recursive approach is " << std::chrono::duration<double, std::milli>(diffRecursive).count() << " ms" << '\n' ;
+
     
     return 0;
 }
