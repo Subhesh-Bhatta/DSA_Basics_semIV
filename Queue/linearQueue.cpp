@@ -3,7 +3,7 @@
 #include <cassert>
 
 template <typename T>
-class Queue {
+class LinearQueue {
 private:
     int frontIndex = -1;
     int rearIndex = -1;
@@ -11,7 +11,7 @@ private:
     T* arr;
 
 public:
-    Queue(int n) {
+    LinearQueue(int n) {
         size = n;
         arr = new T[size];
     }
@@ -72,7 +72,7 @@ public:
         }
     }
 
-    ~Queue() {
+    ~LinearQueue() {
         delete[] arr;
     }
 };
@@ -81,7 +81,7 @@ public:
 //tests written by chatgpt, don't know how good it is
 int main() {
 
-    Queue<int> q(3);
+    LinearQueue<int> q(3);
 
     // -------------------------
     // Test 1: Newly created queue
