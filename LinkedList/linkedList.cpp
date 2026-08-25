@@ -122,7 +122,7 @@ public:
 
     std::vector<int> returnIndexOfKeys(T key){
 
-        Node* temp = head
+        Node* temp = head;
         std::vector<int> indices; 
         for(int i = 1; i <= size; i++ ){
             
@@ -166,9 +166,9 @@ public:
         }
         else{
             int count = -1;
-            Node* traverseNode = getNodeAtIndex(start);
-            std::cout << start-1 << " elemnts... " << "\n";
-            while(traverseNode!=nullptr && count < end-start){
+            Node* traverseNode = head;
+            std::cout << start-1 << " elements... " << "\n";
+            while(traverseNode!=nullptr && count <= end-start){
                 
                 if(count%NewLine==0){
                     std::cout << "\n";
@@ -189,26 +189,26 @@ public:
 
 
             }
-            std::cout << " ..." << size-end << " elements." << "\n";
+            std::cout << "\n" << " ..." << size-end << " elements." << "\n\n";
         }
     }
 
     void deleteByIndex(const int index){
         
-        Node* toBeDeletedNode = getNodeAtIndex(index)
+        Node* toBeDeletedNode = getNodeAtIndex(index);
         if(toBeDeletedNode == nullptr){
-            reutrn;
+            return;
         }
         
-        Node* oneNodeBehindDeleted = getNodeAtIndex(index-1)
+        Node* oneNodeBehindDeleted = getNodeAtIndex(index-1);
         //nullptr will be returned by getNodeAtIndex when index is negative or more than the size
         //since toBeDeletedNode is not nullptr, index-1 is not more than size, or negative
         //OneNodeBehindDelted's index can only be 0, so we can check for nullptr or just see if index=1 or index-1=0
         if(oneNodeBehindDeleted == nullptr){ //if(index == 1)
-            head = toBeDeletedNode->next
+            head = toBeDeletedNode->next;
         }
         else{
-            oneNodeBehindDeleted = toBeDeleted->next
+            oneNodeBehindDeleted = toBeDeletedNode->next;
         }
         size--;
 
@@ -217,7 +217,7 @@ public:
     template <size_t N>
     void deleteByIndices(const int (&indices)[N]){
 
-        for(int i = 0, i < N; i++){
+        for(int i = 0; i < N; i++){
             deleteByIndex(indices[i]);
         }
 
@@ -225,21 +225,24 @@ public:
 
     void ReverseLL(){
 
-        Node* tempHead = head;
+        if (head == nullptr || head->next == nullptr) {
+            return;
+    }
+
         Node* tempPrev = head;
         Node* tempCurrent = tempPrev->next;
         Node* tempAhead = tempCurrent->next;
 
-        do
-        {
+        while (tempAhead != nullptr){
             tempCurrent->next = tempPrev;
             tempPrev = tempCurrent;
             tempCurrent = tempAhead;
             tempAhead = tempAhead->next;
-        } while (tempAhead != nullptr);
+        } 
+        tempCurrent->next = tempPrev;
+
         head->next = nullptr;
         head = tempCurrent;
-        tempCurrent->next = tempPrev;
 
     }
 
@@ -250,3 +253,47 @@ public:
 
 };
 
+int main(){
+
+    linkedList<int> a;
+    a.insertEnd(1);
+    a.displayLL();
+
+    a.insertEnd(2);
+    a.displayLL();
+
+    a.insertEnd(3);
+    a.displayLL();
+    a.ReverseLL();
+    a.displayLL();
+    
+    linkedList<int> b;
+    b.insertEnd(1);
+    b.displayLL();
+
+    b.insertEnd(2);
+    b.displayLL();
+    
+    b.insertEnd(3);
+    b.displayLL();
+    
+    b.insertEnd(4);
+    b.displayLL();
+    
+    b.insertEnd(5);
+    b.displayLL();
+    
+    b.ReverseLL();
+    b.displayLL();
+    
+    linkedList<int> c;
+    c.insertEnd(1);
+    c.displayLL();
+    
+    c.insertEnd(2);
+    c.displayLL();
+    c.ReverseLL();
+    c.displayLL();
+
+    return 0;
+}
