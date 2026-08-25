@@ -19,7 +19,6 @@ private:
     };
 
     Node* head = nullptr;
-    Node* tail = nullptr;
 
     // It stores the size of the linked list, not in most Linked List implementations
     int size = 0;
@@ -88,15 +87,14 @@ public:
 
     void insertEnd(const T& dataElement){ 
         Node* pointerToNewNode = new Node(dataElement); 
-
-        // If you only had head
-        // if (head == nullptr){
-        //     head = pointerToNewNode;
-        // }
-        // else{
-        //     getNodeAtIndex(size)->next = pointerToNewNode;
-        // }
-        // size++;
+        
+        if (head == nullptr){
+            head = pointerToNewNode;
+        }
+        else{
+            getNodeAtIndex(size)->next = pointerToNewNode;
+        }
+        size++;
 
     } 
 
