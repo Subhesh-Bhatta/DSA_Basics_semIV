@@ -221,20 +221,6 @@ public:
     }
 
 
-    void deleteUsingKey(T key){
-        
-        std::vector<Node*> matches = findAllNodesUsingKeyElement(key);
-        //just returning since matches being empty,
-        //will 
-        if(matches.empty()){
-            std::cout << "No element in the Linked List matches the key " << key << "\n";
-            return; 
-        }
-        if(matches.size()==1){
-
-        }
-
-    }
 
 
 
