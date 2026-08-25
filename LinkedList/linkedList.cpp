@@ -37,7 +37,7 @@ private:
         }
         
         Node* temp = head;
-
+        //index 1 returns the value of head, which when dereferenced is the first Node
         for(int i = 1; i < index; i++){
             // We are dereferncing temp, which is a pointer to a Node, then taking its address after
             // temp = (*temp).next;
@@ -58,7 +58,6 @@ private:
             temp = temp->next;
         }
         
-        std::cout << "No element in the Linked List matches the key " << keyDataToTraverseTo << "\n";
         return nullptr;
     }
 
@@ -119,6 +118,23 @@ public:
         return findOneNodeUsingKeyElement(Element)!=nullptr;
     }
 
+    std::vector<int> returnIndexOfKeys(T key){
+
+        Node* temp = head
+        std::vector<int> indices; 
+        for(int i = 1; i <= size; i++ ){
+            
+            if(temp->data == key){
+                indices.push_back(i);
+            }
+            temp = temp->next;
+
+
+        }
+        return indices;
+
+    }
+
     int getSize(){
         return size;
     }
@@ -174,6 +190,57 @@ public:
             std::cout << " ..." << size-end << " elements." << "\n";
     }
 
+    void deleteByIndex(const int index){
+        
+        Node* toBeDeletedNode = getNodeAtIndex(index)
+        if(toBeDeletedNode == nullptr){
+            reutrn;
+        }
+        
+        Node* oneNodeBehindDeleted = getNodeAtIndex(index-1)
+        //nullptr will be returned by getNodeAtIndex when index is negative or more than the size
+        //since toBeDeletedNode is not nullptr, index-1 is not more than size, or negative
+        //OneNodeBehindDelted's index can only be 0, so we can check for nullptr or just see if index=1 or index-1=0
+        if(oneNodeBehindDeleted == nullptr){ //if(index == 1)
+            head = toBeDeletedNode->next
+        }
+        else{
+            oneNodeBehindDeleted = toBeDeleted->next
+        }
+        size--;
+
+    }
+    
+    template <size_t N>
+    void deleteByIndices(const int (&indices)[N]){
+
+        for(int i = 0, i < N; i++){
+            deleteByIndex(indices[i]);
+        }
+
+    }
+
+
+    void deleteUsingKey(T key){
+        
+        std::vector<Node*> matches = findAllNodesUsingKeyElement(key);
+        //just returning since matches being empty,
+        //will 
+        if(matches.empty()){
+            std::cout << "No element in the Linked List matches the key " << key << "\n";
+            return; 
+        }
+        if(matches.size()==1){
+
+        }
+
+    }
+
+
+
+//return index of matched keys
+//reverse linked list
+
 
     ~linkedList(){
         continue;
@@ -185,4 +252,4 @@ int main(){
 
 
     return 0;
-}
+};
