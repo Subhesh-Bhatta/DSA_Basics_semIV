@@ -21,6 +21,8 @@ private:
 
     // It stores the size of the linked list, not in most Linked List implementations
     int size = 0;
+    // Most functions I've made use a for loop till size for traversal, but you can
+    // always just traverse using while loop till next is not nullPtr 
 
     
     //Allows you to search using index, first node is indexed 1
@@ -224,23 +226,25 @@ public:
     void ReverseLL(){
 
         Node* tempHead = head;
-        Node* tempPrev = nullptr;
-        Node* tempCurrent = nullptr;
+        Node* tempPrev = head;
+        Node* tempCurrent = tempPrev->next;
+        Node* tempAhead = tempCurrent->next;
 
-        for(int i = 1; i < size; i++){
-            
-            if(i == 1){
-                tempPrev = head;
-                tempCurrent = tempPrev->data;
+        do
+        {
+            tempCurrent->next = tempPrev;
+            tempPrev = tempCurrent;
+            tempCurrent = tempAhead;
+            tempAhead = tempAhead->next;
+        } while (tempAhead != nullptr);
+        head->next = nullptr;
+        head = tempCurrent;
+        tempCurrent->next = tempPrev;
 
-            }
-
-
-        }
     }
 
     ~linkedList(){
-        
+
     }
 
 
