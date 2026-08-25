@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
-
+#include <stdexcept>
+#include <algorithm>
 
 template <typename T>
 class linkedList{
@@ -17,7 +18,7 @@ private:
         }
     };
 
-    Node* head;
+    Node* head = nullptr;
 
     // It stores the size of the linked list, not in most Linked List implementations
     int size = 0;
@@ -82,9 +83,7 @@ private:
     
 
 public:
-    linkedList(){
-        head = nullptr;
-    };
+    linkedList(){};
 
     void insertEnd(const T& dataElement){ 
         Node* pointerToNewNode = new Node(dataElement); 
@@ -113,14 +112,20 @@ public:
     }
 
     T getElementAtIndex(int index){
-        return getNodeAtIndex(index)->data;
+
+        Node* addressAtIndex = getNodeAtIndex(index); 
+        if(addressAtIndex == nullptr){
+            throw std::out_of_range("No value at this index");
+        }
+
+        return addressAtIndex->data;
     }
 
-    bool doesElementExist(T Element){
+    bool doesElementExist(const T& Element) const{
         return findOneNodeUsingKeyElement(Element)!=nullptr;
     }
 
-    std::vector<int> returnIndexOfKeys(T key){
+    std::vector<int> returnIndexOfKeys(const T& key){
 
         Node* temp = head;
         std::vector<int> indices; 
@@ -137,7 +142,7 @@ public:
 
     }
 
-    int getSize(){
+    int getSize() const{
         return size;
     }
 
@@ -161,12 +166,12 @@ public:
             return;
         }
         else if (end>size){
-            std::cout << "Start is higher than size by" << start-size << " elements" << "\n";
+            std::cout << "End is higher than size by" << end-size << " elements" << "\n";
             return;
         }
         else{
             int count = -1;
-            Node* traverseNode = head;
+            Node* traverseNode = getNodeAtIndex(start);
             std::cout << start-1 << " elements... " << "\n";
             while(traverseNode!=nullptr && count <= end-start){
                 
@@ -200,26 +205,38 @@ public:
             return;
         }
         
-        Node* oneNodeBehindDeleted = getNodeAtIndex(index-1);
-        //nullptr will be returned by getNodeAtIndex when index is negative or more than the size
-        //since toBeDeletedNode is not nullptr, index-1 is not more than size, or negative
-        //OneNodeBehindDelted's index can only be 0, so we can check for nullptr or just see if index=1 or index-1=0
-        if(oneNodeBehindDeleted == nullptr){ //if(index == 1)
+       if(index == 1){ 
             head = toBeDeletedNode->next;
         }
         else{
-            oneNodeBehindDeleted = toBeDeletedNode->next;
+            Node* oneNodeBehindDeleted = getNodeAtIndex(index-1);
+            oneNodeBehindDeleted->next = toBeDeletedNode->next;
         }
+        delete toBeDeletedNode;
         size--;
 
     }
     
+    // We are using template so, that we don't have to pass in number of items
+    // in array as well
     template <size_t N>
-    void deleteByIndices(const int (&indices)[N]){
+    void deleteByIndices(int (&indices)[N]){
 
-        for(int i = 0; i < N; i++){
-            deleteByIndex(indices[i]);
-        }
+        // This algorithm adds traverses and changes the indices list for each deletion,
+        // It decreases all the coming indices by one 
+        // which are greater than the index we just deleted 
+        // for(int i = 0; i < N; i++){
+        //     deleteByIndex(indices[i]);
+        //     deletionCount++;
+        //     for(int j = i+1; j < N; j++){
+        //         if(indices[i]<indices[j]){
+        //             indices[j]--;
+        //         }                
+        //     }
+        // }
+
+
+
 
     }
 
@@ -239,6 +256,7 @@ public:
             tempCurrent = tempAhead;
             tempAhead = tempAhead->next;
         } 
+
         tempCurrent->next = tempPrev;
 
         head->next = nullptr;
@@ -247,7 +265,14 @@ public:
     }
 
     ~linkedList(){
+        Node* current = head;
+        Node* next = nullptr;
 
+        while(current != nullptr){
+            next = current->next;
+            delete current;
+            current = next;
+        }
     }
 
 
