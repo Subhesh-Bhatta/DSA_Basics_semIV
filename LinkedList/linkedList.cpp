@@ -188,6 +188,7 @@ public:
 
             }
             std::cout << " ..." << size-end << " elements." << "\n";
+        }
     }
 
     void deleteByIndex(const int index){
@@ -220,22 +221,28 @@ public:
 
     }
 
+    void ReverseLL(){
+
+        Node* tempHead = head;
+        Node* tempPrev = nullptr;
+        Node* tempCurrent = nullptr;
+
+        for(int i = 1; i < size; i++){
+            
+            if(i == 1){
+                tempPrev = head;
+                tempCurrent = tempPrev->data;
+
+            }
 
 
-
-
-//return index of matched keys
-//reverse linked list
-
+        }
+    }
 
     ~linkedList(){
-        continue;
-    };
+        
+    }
+
+
 };
 
-
-int main(){
-
-
-    return 0;
-};
