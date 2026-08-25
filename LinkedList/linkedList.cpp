@@ -216,25 +216,31 @@ public:
             << " ..." << size-end << " elements." << "\n\n";
     }
 
-    void deleteByIndex(const int index){
-        
-        Node* toBeDeletedNode = getNodeAtIndex(index);
-        if(toBeDeletedNode == nullptr){
-            return;
+    void deleteByIndex(const int index) {
+
+        if (index <= 0 || index > size) {
+            throw std::out_of_range("Index is outside the linked list");
         }
-        
-       if(index == 1){ 
+
+        Node* oneNodeBehindDeleted = nullptr;
+        Node* toBeDeletedNode = head;
+
+        for (int i = 1; i < index; i++) {
+            oneNodeBehindDeleted = toBeDeletedNode;
+            toBeDeletedNode = toBeDeletedNode->next;
+        }
+
+        if (oneNodeBehindDeleted == nullptr) {
             head = toBeDeletedNode->next;
         }
-        else{
-            Node* oneNodeBehindDeleted = getNodeAtIndex(index-1);
+        else {
             oneNodeBehindDeleted->next = toBeDeletedNode->next;
         }
+
         delete toBeDeletedNode;
         size--;
-
     }
-    
+        
     // We are using template so, that we don't have to pass in number of items
     // in array as well
     template <size_t N>
