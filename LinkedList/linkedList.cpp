@@ -263,6 +263,22 @@ public:
         //Using Merge Sort
         std::sort(indices, indices + N);
 
+        //Validating the sorted array for duplicates, and out of range indexes
+        for (int i = 0; i < N; i++) {
+
+            if (indices[i] <= 0 || indices[i] > size) {
+                throw std::out_of_range(
+                    "Deletion index is outside the linked list"
+                );
+            }
+
+            if (i > 0 && indices[i] == indices[i - 1]) {
+                throw std::out_of_range(
+                    "Duplicate deletion index"
+                );
+            }
+        }   
+
         Node* oneNodeBehind = nullptr;
         Node* currentNode = head;
 
@@ -270,15 +286,6 @@ public:
         int deletionIndex = 0;
 
         while (currentNode != nullptr && deletionIndex < N) {
-
-            if(i>0 && indices[i]==indices[i-1]){
-                std::cout << "\n" << "Duplicate index found: " << indices[i]
-                    << "\n";
-            }
-
-            if (indices[i] <= 0 || indices[i] > size) {
-               throw std::out_of_range("Deletion index is outside the linked list");
-            }
 
             if (LLIndex == indices[deletionIndex]) {
 
