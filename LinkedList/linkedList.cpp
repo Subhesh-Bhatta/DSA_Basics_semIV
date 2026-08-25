@@ -19,6 +19,7 @@ private:
     };
 
     Node* head = nullptr;
+    Node* tail = nullptr;
 
     // It stores the size of the linked list, not in most Linked List implementations
     int size = 0;
@@ -52,7 +53,7 @@ private:
     }
 
 
-    Node* findOneNodeUsingKeyElement(const T& keyDataToTraverseTo){
+    Node* findOneNodeUsingKeyElement(const T& keyDataToTraverseTo) const{
         Node* temp = head;
         for(int i = 1; i <= size; i++){
             if(temp->data == keyDataToTraverseTo){
@@ -87,14 +88,15 @@ public:
 
     void insertEnd(const T& dataElement){ 
         Node* pointerToNewNode = new Node(dataElement); 
-        
-        if (head == nullptr){
-            head = pointerToNewNode;
-        }
-        else{
-            getNodeAtIndex(size)->next = pointerToNewNode;
-        }
-        size++;
+
+        // If you only had head
+        // if (head == nullptr){
+        //     head = pointerToNewNode;
+        // }
+        // else{
+        //     getNodeAtIndex(size)->next = pointerToNewNode;
+        // }
+        // size++;
 
     } 
 
@@ -147,55 +149,73 @@ public:
     }
 
     void displayLL(int start = 1, int end = -1, int NewLine = 5){
+        
+        if (size == 0) {
+            throw std::out_of_range("Cannot display an empty linked list");
+        }
+
         // we're doing this instead of making int end = size a default parameter,
         // this is because C++ compiler tries to determine what 'size' is when this
         // function is declared, which is right now, and currently it doesn't know the 
         // exact value of size, because it doesn't know which linked list object is 
         // calling it, it only knows the actual size at runtime, when a particular object
         // calls it
-        if(end==-1){
+        if (end == -1) {
             end = size;
         }
-        if(size == 0){
-            std::cout << "Linked list is empty" << "\n";
-            return;
+
+        if (start <= 0) {
+            throw std::out_of_range("Start index must be greater than 0");
         }
-        else if (start>size)
-        {
-            std::cout << "Start is higher than size by" << start-size << " elements" << "\n";
-            return;
+
+        if (end <= 0) {
+            throw std::out_of_range("End index must be greater than 0");
         }
-        else if (end>size){
-            std::cout << "End is higher than size by" << end-size << " elements" << "\n";
-            return;
+
+        if (start > size) {
+            throw std::out_of_range("Start index is greater than the size of the linked list");
         }
-        else{
-            int count = -1;
-            Node* traverseNode = getNodeAtIndex(start);
-            std::cout << start-1 << " elements... " << "\n";
-            while(traverseNode!=nullptr && count <= end-start){
-                
-                if(count%NewLine==0){
-                    std::cout << "\n";
-                    count = 0;
-                }
 
-                if(count==-1){
-                    std::cout << traverseNode->data;
-                    count = 1;
-                    traverseNode = traverseNode->next;
-                    continue;
-                }
+        if (end > size) {
+            throw std::out_of_range("End index is greater than the size of the linked list");
+        }
 
-                std::cout << " -> "<< traverseNode->data;
-                
-                count++;
-                traverseNode = traverseNode->next;
+        if (start > end) {
+            throw std::out_of_range("Start index cannot be greater than end index");
+        }
 
+        if (NewLine <= 0) {
+            throw std::out_of_range("NewLine must be greater than 0");
+        }
 
+        int count = -1;
+        Node* traverseNode = getNodeAtIndex(start);
+
+        std::cout << start - 1 << " elements... " << "\n";
+
+        while(traverseNode!=nullptr && count <= end-start){
+            
+            if(count%NewLine==0){
+                std::cout << "\n";
+                count = 0;
             }
-            std::cout << "\n" << " ..." << size-end << " elements." << "\n\n";
+
+            if(count==-1){
+                std::cout << traverseNode->data;
+                count = 1;
+                traverseNode = traverseNode->next;
+                continue;
+            }
+
+            std::cout << " -> "<< traverseNode->data;
+            
+            count++;
+            traverseNode = traverseNode->next;
+
+
         }
+        std::cout << "\n" 
+            << " ..." << size-end << " elements." << "\n\n";
     }
 
     void deleteByIndex(const int index){
@@ -235,9 +255,50 @@ public:
         //     }
         // }
 
+        //Best time optimization
+        //Using Merge Sort
+        std::sort(indices, indices + N);
 
+        Node* oneNodeBehind = nullptr;
+        Node* currentNode = head;
 
+        int LLIndex = 1;
+        int deletionIndex = 0;
 
+        while (currentNode != nullptr && deletionIndex < N) {
+
+            if(i>0 && indices[i]==indices[i-1]){
+                std::cout << "\n" << "Duplicate index found: " << indices[i]
+                    << "\n";
+            }
+
+            if (indices[i] <= 0 || indices[i] > size) {
+               throw std::out_of_range("Deletion index is outside the linked list");
+            }
+
+            if (LLIndex == indices[deletionIndex]) {
+
+                Node* next = currentNode->next;
+
+                if (oneNodeBehind == nullptr) {
+                    head = next;
+                }
+                else {
+                    oneNodeBehind->next = next;
+                }
+
+                delete currentNode;
+                currentNode = next;
+
+                deletionIndex++;
+                size--;
+            }
+            else {
+                oneNodeBehind = currentNode;
+                currentNode = currentNode->next;
+                LLIndex++;
+            }
+        }
     }
 
     void ReverseLL(){
