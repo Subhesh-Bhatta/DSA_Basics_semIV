@@ -302,6 +302,7 @@ public:
                 currentNode = next;
 
                 deletionIndex++;
+                LLIndex++;
                 size--;
             }
             else {
@@ -350,47 +351,169 @@ public:
 
 };
 
-int main(){
+int main() {
 
     linkedList<int> a;
+
+    std::cout << "===== INSERT START / END =====\n";
+
+    std::cout << "\nInsert at end: 1\n";
     a.insertEnd(1);
     a.displayLL();
 
+    std::cout << "\nInsert at end: 2\n";
     a.insertEnd(2);
     a.displayLL();
 
-    a.insertEnd(3);
+    std::cout << "\nInsert at start: 0\n";
+    a.insertStart(0);
     a.displayLL();
+
+
+    std::cout << "\n===== GET ELEMENT =====\n";
+
+    std::cout << "Element at index 2: "
+              << a.getElementAtIndex(2) << "\n";
+
+
+    std::cout << "\n===== SEARCH =====\n";
+
+    std::cout << "Does 2 exist? "
+              << (a.doesElementExist(2) ? "Yes" : "No") << "\n";
+
+    std::cout << "Does 10 exist? "
+              << (a.doesElementExist(10) ? "Yes" : "No") << "\n";
+
+
+    std::cout << "\n===== DELETE BY INDEX =====\n";
+
+    std::cout << "\nBefore deleting index 1:\n";
+    a.displayLL();
+
+    std::cout << "Deleting index 1...\n";
+    a.deleteByIndex(1);
+
+    std::cout << "After:\n";
+    a.displayLL();
+
+
+    std::cout << "\nDeleting last element...\n";
+    a.deleteByIndex(a.getSize());
+
+    std::cout << "After:\n";
+    a.displayLL();
+
+
+    std::cout << "\n===== INSERT MORE =====\n";
+
+    a.insertEnd(3);
+    a.insertEnd(4);
+    a.insertEnd(5);
+    a.insertEnd(6);
+    a.insertEnd(7);
+
+    a.displayLL();
+
+
+    std::cout << "\n===== DELETE MULTIPLE INDICES =====\n";
+
+    int indices[] = {2, 4};
+
+    std::cout << "Before deleting indices 2 and 4:\n";
+    a.displayLL();
+
+    std::cout << "Deleting...\n";
+    a.deleteByIndices(indices);
+
+    std::cout << "After:\n";
+    a.displayLL();
+
+
+    std::cout << "\n===== REVERSE =====\n";
+
+    std::cout << "Before reverse:\n";
+    a.displayLL();
+
+    std::cout << "After reverse:\n";
     a.ReverseLL();
     a.displayLL();
-    
-    linkedList<int> b;
-    b.insertEnd(1);
-    b.displayLL();
 
-    b.insertEnd(2);
-    b.displayLL();
-    
-    b.insertEnd(3);
-    b.displayLL();
-    
-    b.insertEnd(4);
-    b.displayLL();
-    
-    b.insertEnd(5);
-    b.displayLL();
-    
-    b.ReverseLL();
-    b.displayLL();
-    
-    linkedList<int> c;
-    c.insertEnd(1);
-    c.displayLL();
-    
-    c.insertEnd(2);
-    c.displayLL();
-    c.ReverseLL();
-    c.displayLL();
+
+    std::cout << "\n===== DISPLAY RANGE =====\n";
+
+    std::cout << "Displaying indices 2 to 4:\n";
+    a.displayLL(2, 4);
+
+
+    std::cout << "\n===== SEARCH DUPLICATES =====\n";
+
+    a.insertEnd(3);
+    a.insertEnd(3);
+
+    std::cout << "List:\n";
+    a.displayLL();
+
+    std::cout << "Indices containing 3:\n";
+
+    std::vector<int> indicesOf3 = a.returnIndexOfKeys(3);
+
+    for (int index : indicesOf3) {
+        std::cout << index << " ";
+    }
+
+    std::cout << "\n";
+
+
+    std::cout << "\n===== EXCEPTION TESTS =====\n";
+
+    try {
+        a.getElementAtIndex(0);
+    }
+    catch (const std::out_of_range& e) {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
+    try {
+        a.deleteByIndex(100);
+    }
+    catch (const std::out_of_range& e) {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
+    try {
+        a.displayLL(5, 2);
+    }
+    catch (const std::out_of_range& e) {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
+
+    std::cout << "\n===== DUPLICATE DELETE TEST =====\n";
+
+    int duplicateIndices[] = {2, 2};
+
+    try {
+        a.deleteByIndices(duplicateIndices);
+    }
+    catch (const std::out_of_range& e) {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
+
+    std::cout << "\n===== OUT OF RANGE MULTIPLE DELETE TEST =====\n";
+
+    int badIndices[] = {2, 100};
+
+    try {
+        a.deleteByIndices(badIndices);
+    }
+    catch (const std::out_of_range& e) {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
+
+    std::cout << "\n===== FINAL LIST =====\n";
+    a.displayLL();
 
     return 0;
 }
