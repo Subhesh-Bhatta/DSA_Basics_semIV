@@ -106,6 +106,161 @@ class BST{
 
     }
 
+    Node* deleteHelper(Node* node, T value){
+        
+        if(node == nullptr){
+            return nullptr
+        }
+
+        if(value < node->data){
+            node->left = deleteHelper(node->left, value);
+        }
+
+        else if(value > node->data){
+            node->right = deleteHelper(node->right, value);
+        }
+
+        else{
+
+            if(node->left == nullptr){
+                Node* temp = node->right;
+                delete node;
+                return temp;
+            }
+
+            if(node->right == nullptr){
+                Node* temp = node->left;
+                delete node;
+                return temp;
+            }
+            // inOrderSuccessor is the smallest value in the right subtree
+            Node* inOrderSuccessor = node->right;
+            while (inOrderSuccessor->left != nullptr)
+            {
+                inOrderSuccessor = inOrderSuccessor->left;
+            }
+
+            node->data = inOrderSuccessor->data;
+            node->right = deleteHelper(node->right, sucessor->data);
+            
+
+        }
+        
+    }
+
+    
+    //Just a naive and brute force approach for deleting node, explains 
+    //what needs to be done better however, so keeping this as a comment
+
+    // void deleteHelper(Node*& rootNode, const T& value) {
+
+    //     Node* behindTraversal = nullptr;
+    //     Node* currentTraversal = rootNode;
+    //     bool isLeft = false;
+
+    //     while (currentTraversal != nullptr) {
+
+    //         if (value < currentTraversal->data) {
+
+    //             behindTraversal = currentTraversal;
+    //             currentTraversal = currentTraversal->left;
+    //             isLeft = true;
+    //         }
+
+    //         else if (value > currentTraversal->data) {
+
+    //             behindTraversal = currentTraversal;
+    //             currentTraversal = currentTraversal->right;
+    //             isLeft = false;
+    //         }
+
+    //         //Node found
+    //         else {
+
+    //             if (currentTraversal->left == nullptr &&
+    //                 currentTraversal->right == nullptr) {
+
+    //                 if (behindTraversal == nullptr) {
+    //                     rootNode = nullptr;
+    //                 }
+    //                 else if (isLeft) {
+    //                     behindTraversal->left = nullptr;
+    //                 }
+    //                 else {
+    //                     behindTraversal->right = nullptr;
+    //                 }
+
+    //                 delete currentTraversal;
+    //                 return;
+    //             }
+
+    //             else if (currentTraversal->left != nullptr &&
+    //                     currentTraversal->right == nullptr) {
+
+    //                 if (behindTraversal == nullptr) {
+    //                     rootNode = currentTraversal->left;
+    //                 }
+    //                 else if (isLeft) {
+    //                     behindTraversal->left = currentTraversal->left;
+    //                 }
+    //                 else {
+    //                     behindTraversal->right = currentTraversal->left;
+    //                 }
+
+    //                 delete currentTraversal;
+    //                 return;
+    //             }
+
+    //             else if (currentTraversal->left == nullptr &&
+    //                     currentTraversal->right != nullptr) {
+
+    //                 if (behindTraversal == nullptr) {
+    //                     rootNode = currentTraversal->right;
+    //                 }
+    //                 else if (isLeft) {
+    //                     behindTraversal->left = currentTraversal->right;
+    //                 }
+    //                 else {
+    //                     behindTraversal->right = currentTraversal->right;
+    //                 }
+
+    //                 delete currentTraversal;
+    //                 return;
+    //             }
+
+    //             else {
+
+    //                 Node* successor = currentTraversal->right;
+
+    //                 while (successor->left != nullptr) {
+    //                     successor = successor->left;
+    //                 }
+
+    //                 currentTraversal->data = successor->data;
+
+    //                 Node* successorParent = currentTraversal;
+    //                 Node* successorTraversal = currentTraversal->right;
+
+    //                 while (successorTraversal != successor) {
+    //                     successorParent = successorTraversal;
+    //                     successorTraversal = successorTraversal->left;
+    //                 }
+
+    //                 if (successorParent->left == successor) {
+    //                     successorParent->left = successor->right;
+    //                 }
+    //                 else {
+    //                     successorParent->right = successor->right;
+    //                 }
+
+    //                 delete successor;
+    //                 return;
+    //             }
+    //         }
+    //     }
+
+    //     std::cout << "Value doesn't exist\n";
+    // }
     public:
 
     
@@ -170,6 +325,7 @@ class BST{
         }
     }
 
+    // can also be used to print a sorted array
     std::vector<T> inOrderTraversal(bool print = false){
         std::vector<T> traversalVector;
 
@@ -244,8 +400,45 @@ class BST{
         return mirrored;
     }
 
-    void deleteValue(){
-
+    void deleteValue(const T& value) {
+        deleteHelper(root, value);
     }
 
+
+
 };
+
+int main() {
+
+    BST<int> bst;
+
+    // Build the BST
+    bst.insert(50);
+    bst.insert(30);
+    bst.insert(70);
+    bst.insert(20);
+    bst.insert(40);
+    bst.insert(60);
+    bst.insert(80);
+    bst.insert(65);
+
+    std::cout << "Original tree (in-order):\n";
+    bst.inOrderTraversal(true);
+
+    // Delete leaf node
+    std::cout << "\nDeleting 20:\n";
+    bst.deleteValue(20);
+    bst.inOrderTraversal(true);
+
+    // Delete node with one child
+    std::cout << "\nDeleting 60:\n";
+    bst.deleteValue(60);
+    bst.inOrderTraversal(true);
+
+    // Delete node with two children
+    std::cout << "\nDeleting 70:\n";
+    bst.deleteValue(70);
+    bst.inOrderTraversal(true);
+
+    return 0;
+}
