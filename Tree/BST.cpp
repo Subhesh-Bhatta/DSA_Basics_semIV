@@ -57,23 +57,30 @@ class BST{
         }
     }
 
+    Node* searchElementinBST(Node* node, const T& value){
+        if(node == nullptr || node->data == value){
+            return node;
+        }
+        if (node->data < value){
+            searchElementinBST(node->left, value);
+        }
+        else{
+            searchElementinBST(node->right, value);
+        }
+    }
+
     public:
 
-    enum class TraversalType{
-        InOrder,
-        PreOrder,
-        PostOrder
-    };
-
+    
     void insert(const T& value){
         Node* newNode = new Node(value);
         Node* traversalNode = root;
-
+        
         if(root == nullptr){
             root = newNode;
             return;
         }
-
+        
         while (true)
         {
             if(value < traversalNode->data){
@@ -81,30 +88,37 @@ class BST{
                     traversalNode->left = newNode;
                     return;
                 }
-
+                
                 traversalNode = traversalNode->left;
             }
-
+            
             else{
                 if(traversalNode->right == nullptr){
                     traversalNode->right = newNode;
                     return;
                 }
-
+                
                 traversalNode = traversalNode->right;
             }
         }
     }
+    
+
+    enum class TraversalType{
+        InOrder,
+        PreOrder,
+        PostOrder
+    };
 
     std::vector<T> traverseBST(TraversalType type, bool print = false){
         switch (type)
         {
-        case TraversalType::InOrder:
+            case TraversalType::InOrder:
             return inOrderTraversal(print);
-
-        case TraversalType::PreOrder:
+            
+            case TraversalType::PreOrder:
             return preOrderTraversal(print);
-
+            
         case TraversalType::PostOrder:
             return postOrderTraversal(print);
 
@@ -149,4 +163,17 @@ class BST{
 
         return traversalVector;
     }
+
+    bool searchElementinBST(T data){
+        
+        if(searchElementinBST(root, data) != nullptr){
+            std::cout << "Element is in BST";
+            return true;
+        }
+        std::cout << "Element is not in BST";
+        return false;
+        
+    }
+
+
 };
