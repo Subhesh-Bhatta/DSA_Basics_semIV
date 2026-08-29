@@ -62,11 +62,25 @@ class BST{
             return node;
         }
         if (node->data < value){
-            searchElementinBST(node->left, value);
+            return searchElementinBST(node->left, value);
         }
         else{
-            searchElementinBST(node->right, value);
+            return searchElementinBST(node->right, value);
         }
+    }
+
+    int heightOfBST(Node* node){
+        if(node == nullptr){
+            return -1;
+        }
+        return 1 + std::max(heightOfBST(node->left), heightOfBST(node->right));
+    }
+
+    int numberOfNodes(Node* node){
+        if(node == nullptr){
+            return 0;
+        }
+        return 1 + numberOfNodes(node->left) + numberOfNodes(node->right);
     }
 
     public:
@@ -173,6 +187,14 @@ class BST{
         std::cout << "Element is not in BST";
         return false;
         
+    }
+
+    int heightOfBST(){
+        return heightOfBST(root);
+    }
+
+    int numberOfNodes(){
+        return numberOfNodes(root);
     }
 
 
