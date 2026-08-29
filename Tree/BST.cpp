@@ -129,13 +129,18 @@ class BST{
                 traversalNode = traversalNode->left;
             }
             
-            else{
+            else if (value > traversalNode->data)
+            {
                 if(traversalNode->right == nullptr){
                     traversalNode->right = newNode;
                     return;
                 }
-                
+
                 traversalNode = traversalNode->right;
+            }
+            else{
+                std::cout << "Duplicate value";
+                return;
             }
         }
     }
@@ -237,6 +242,10 @@ class BST{
 
     bool isMirror() const{
         return mirrored;
+    }
+
+    void deleteValue(){
+
     }
 
 };
