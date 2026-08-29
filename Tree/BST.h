@@ -412,9 +412,3 @@ class BST{
 
 };
 
-int main() {
-
-
-
-    return 0;
-}
