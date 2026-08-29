@@ -21,6 +21,11 @@ class BST{
 
     Node* root = nullptr; 
 
+    // to track if the BST is a mirrored BST or not
+    // doesn't change any of the function implementation currently, so be
+    // careful when using it
+    bool mirrored = false;
+
     void inOrderTraversal(Node* node, std::vector<T>& traversalVector){
         if(node == nullptr){
             return;
@@ -81,6 +86,24 @@ class BST{
             return 0;
         }
         return 1 + numberOfNodes(node->left) + numberOfNodes(node->right);
+    }
+
+    void mirrorBSTHelper(Node* newTreeNode, Node* nonMirroredTreeNode){
+        
+        if(nonMirroredTreeNode == nullptr){
+            return;
+        }
+        if(nonMirroredTreeNode->right != nullptr){
+            newTreeNode->left = new Node(nonMirroredTreeNode->right->data);
+        }
+        if(nonMirroredTreeNode->left != nullptr){
+            newTreeNode->right= new Node(nonMirroredTreeNode->left->data);
+        }
+
+
+        mirrorBSTHelper(newTreeNode->left, nonMirroredTreeNode->right);
+        mirrorBSTHelper(newTreeNode->right, nonMirroredTreeNode->left);
+
     }
 
     public:
@@ -197,5 +220,23 @@ class BST{
         return numberOfNodes(root);
     }
 
+    BST<T>* createMirrorBST(){
+        BST<T>* newTree = new BST<T>();
+
+        if(root==nullptr){
+            return newTree;
+        }
+
+        newTree->root = new Node(root->data);
+        newTree->mirrored = true;
+
+        mirrorBSTHelper(newTree->root, root);
+
+        return newTree;
+    }
+
+    bool isMirror() const{
+        return mirrored;
+    }
 
 };
