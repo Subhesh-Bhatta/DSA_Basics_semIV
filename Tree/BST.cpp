@@ -412,35 +412,7 @@ class BST{
 
 int main() {
 
-    BST<int> bst;
 
-    // Build the BST
-    bst.insert(50);
-    bst.insert(30);
-    bst.insert(70);
-    bst.insert(20);
-    bst.insert(40);
-    bst.insert(60);
-    bst.insert(80);
-    bst.insert(65);
-
-    std::cout << "Original tree (in-order):\n";
-    bst.inOrderTraversal(true);
-
-    // Delete leaf node
-    std::cout << "\nDeleting 20:\n";
-    bst.deleteValue(20);
-    bst.inOrderTraversal(true);
-
-    // Delete node with one child
-    std::cout << "\nDeleting 60:\n";
-    bst.deleteValue(60);
-    bst.inOrderTraversal(true);
-
-    // Delete node with two children
-    std::cout << "\nDeleting 70:\n";
-    bst.deleteValue(70);
-    bst.inOrderTraversal(true);
 
     return 0;
 }
