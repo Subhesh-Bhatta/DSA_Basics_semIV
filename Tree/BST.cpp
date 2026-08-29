@@ -109,7 +109,7 @@ class BST{
     Node* deleteHelper(Node* node, T value){
         
         if(node == nullptr){
-            return nullptr
+            return nullptr;
         }
 
         if(value < node->data){
@@ -133,6 +133,7 @@ class BST{
                 delete node;
                 return temp;
             }
+
             // inOrderSuccessor is the smallest value in the right subtree
             Node* inOrderSuccessor = node->right;
             while (inOrderSuccessor->left != nullptr)
@@ -141,10 +142,11 @@ class BST{
             }
 
             node->data = inOrderSuccessor->data;
-            node->right = deleteHelper(node->right, sucessor->data);
+            node->right = deleteHelper(node->right, inOrderSuccessor->data);
             
 
         }
+        return node;
         
     }
 
@@ -401,7 +403,7 @@ class BST{
     }
 
     void deleteValue(const T& value) {
-        deleteHelper(root, value);
+        Node* _ = deleteHelper(root, value);
     }
 
 
