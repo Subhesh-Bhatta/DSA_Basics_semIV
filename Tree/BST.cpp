@@ -112,42 +112,44 @@ class BST{
             return nullptr;
         }
 
-        if(value < node->data){
-            node->left = deleteHelper(node->left, value);
-        }
-
-        else if(value > node->data){
+        if(value > node->data){
             node->right = deleteHelper(node->right, value);
         }
-
+        else if(value < node->data ){
+            node->left = deleteHelper(node->left, value);
+        }
         else{
 
             if(node->left == nullptr){
-                Node* temp = node->right;
+                Node* successor = node->right;
                 delete node;
-                return temp;
+                return successor;
+                
             }
 
-            if(node->right == nullptr){
-                Node* temp = node->left;
+            else if(node->right == nullptr){
+                Node* successor = node->left;
                 delete node;
-                return temp;
+                return successor;
             }
 
-            // inOrderSuccessor is the smallest value in the right subtree
-            Node* inOrderSuccessor = node->right;
-            while (inOrderSuccessor->left != nullptr)
-            {
-                inOrderSuccessor = inOrderSuccessor->left;
-            }
+            else{
+                Node* inOrderSuccessor = node->right;
+                while(inOrderSuccessor->left!=nullptr){
+                    inOrderSuccessor = inOrderSuccessor->left;
+                }
 
-            node->data = inOrderSuccessor->data;
-            node->right = deleteHelper(node->right, inOrderSuccessor->data);
-            
+                node->data = inOrderSuccessor->data;
+                
+                node->right = deleteHelper(node->right, inOrderSuccessor->data);
+
+                return node;
+
+            }
 
         }
         return node;
-        
+
     }
 
     
@@ -403,7 +405,7 @@ class BST{
     }
 
     void deleteValue(const T& value) {
-        Node* _ = deleteHelper(root, value);
+        Node* root = deleteHelper(root, value);
     }
 
 
