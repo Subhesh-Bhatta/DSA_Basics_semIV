@@ -1,5 +1,4 @@
 #include "sortingAlgo.h"
-#include <vector>
 
 void selectionSort(std::vector<int>& arr, bool asc){
     
