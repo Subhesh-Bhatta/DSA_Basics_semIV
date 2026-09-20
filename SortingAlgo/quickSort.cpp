@@ -20,9 +20,21 @@ void quickSort(std::vector<int>& arr, int min, int max, bool asc){
         return;
     }
 
-    int pivot = arr[max];
+    int pivotIndex = max;
+    int pivot = arr[pivotIndex];
+    std::swap(arr[pivotIndex], arr[max]);
+
+    //instead of doing the above 3 lines, you can always just
+    //int pivot = arr[max]
+    //if you are taking the max as pivot always anywas
+    //i am just doing that so I can modify the pivotIndex variable 
+    //to be something else if I want to
+    //this however requires you to swap it with max, the last element in the (sub)array
+    //since our logic after is written with pivot being the last element in mind
+
     int i = min-1;
     int j = min;
+
     for(; j < max; j++){
         if(asc){
             if(arr[j] < pivot){
