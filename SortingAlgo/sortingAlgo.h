@@ -7,7 +7,8 @@ void selectionSort(std::vector<int>& arr, bool asc = true);
 
 void insertionSort(std::vector<int>& arr, bool asc = true);
 
-void quickSort(int arr[], int n); //also called partition-exchange sort
+ //also called partition-exchange sort
+void quickSort(std::vector<int>& arr, int min=0, int max = -1, bool asc = true);
 
 void shellSort(int arr[], int n);
 
