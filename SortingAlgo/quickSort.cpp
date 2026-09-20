@@ -20,7 +20,8 @@ void quickSort(std::vector<int>& arr, int min, int max, bool asc){
         return;
     }
 
-    int pivotIndex = max;
+    // int pivotIndex = max;
+    int pivotIndex = min + (max - min) / 2; //making the middle element be pivot element
     int pivot = arr[pivotIndex];
     std::swap(arr[pivotIndex], arr[max]);
 
