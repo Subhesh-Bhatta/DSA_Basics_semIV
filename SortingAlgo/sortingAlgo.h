@@ -11,7 +11,9 @@ void insertionSort(std::vector<int>& arr, bool asc = true);
 //TODO: this is currently only Lorunto partioning scheme, make one for Hoare as well later
 void quickSort(std::vector<int>& arr, int min=0, int max = -1, bool asc = true);
 
-void shellSort(int arr[], int n);
+//generalizaton and a better version of insertion Sort
+// also caleld diminishing increment sort
+void shellSort(std::vector<int>& arr, bool asc = true);
 
 void heapSort(int arr[], int n);
 
