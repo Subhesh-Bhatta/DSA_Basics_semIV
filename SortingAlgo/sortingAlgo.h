@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <cmath>
 
 void bubbleSort(std::vector<int>& arr, bool asc = true);
 
@@ -17,6 +18,6 @@ void shellSort(std::vector<int>& arr, bool asc = true);
 
 void mergeSort(std::vector<int>& arr, int left = 0, int right = -1, bool asc = true);
 
-void heapSort(int arr[], int n);
+void radixSort(std::vector<int>& arr, bool asc = true);
 
-void radixSort(int arr[], int n);
+void heapSort(int arr[], int n);
