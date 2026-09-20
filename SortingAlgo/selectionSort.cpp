@@ -1,7 +1,7 @@
 #include "sortingAlgo.h"
 #include <vector>
 
-void selectionSort(std::vector<int>& arr, bool asc = true){
+void selectionSort(std::vector<int>& arr, bool asc){
     
     std::size_t n = arr.size();
 
