@@ -1,6 +1,8 @@
 #include <vector>
 #include <stdexcept>
 
+//return the index of the item in the array if found, else throws an exception
+//best for unsorted list/ a random one which we know nothing about
 template<typename T>
 std::size_t linearSearch(std::vector<T>& arr, T data)
 {
