@@ -16,12 +16,18 @@ void insertionSort(std::vector<int>& arr, bool asc){
                     arr[j] = arr[j-1];
                     current_index = j-1; 
                 }
+                else{
+                    break;
+                }
             }
             else{
                 if(arr[j-1] < temp){
                     arr[j] = arr[j-1]; 
                     current_index = j-1; 
 
+                }
+                else{
+                    break;
                 }
             }
         
