@@ -54,8 +54,10 @@ long long int iterativeFactorial(long long int n){
     return factorial;
 };
 
-// non tail recursion is the type of recursion where no further operation are left to be done after recursive call except for returning
-// here multiplying by n in n*recursiveCall is left to be done, making this non tail recursion 
+// non tail recursion is the type of recursion where no further operation
+// are left to be done after recursive call except for returning
+// here multiplying by n in n*recursiveCall is left to be done, 
+// making this non tail recursion 
 long long int nonTailRecursiveFactorial(long long int n){
     if (n==1){
         return 1;
@@ -65,8 +67,11 @@ long long int nonTailRecursiveFactorial(long long int n){
     }
 };
 
-// tail recursion is the type of recursion where recursive call is the last operation in the function before returning
-// here the multiplication is done inside the recursive call, making it so that no operations need to be done after recursively call except for returning
+// tail recursion is the type of recursion where recursive call
+// is the last operation in the function before returning
+// here the multiplication is done inside the recursive call,
+// making it so that no operations need to be done after recursively
+// call except for returning
 long long int TailRecursiveFactorial(long long int currentNo,long long int previousMultiplication){
     if(currentNo <= 1){
         return previousMultiplication;
